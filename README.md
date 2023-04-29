@@ -1,7 +1,7 @@
 # BB Human Class
 ---
 ## About
-- BaseBuilder Human Class
+- BaseBuilder Human Class Counter-Strike 1.6
 
 ## Picture
 ![20230429223918_1](https://user-images.githubusercontent.com/60442490/235320218-dd440ea5-083e-4517-8fe2-007f39576926.jpg)
