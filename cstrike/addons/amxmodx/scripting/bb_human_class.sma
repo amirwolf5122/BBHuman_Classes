@@ -54,16 +54,16 @@ public plugin_init()
 
 public plugin_precache()
 {
-    // Precache models
-    for (new i = 0; i < sizeof(g_eClass); i++) {
-        new model[128]
-        formatex(model, charsmax(model), "models/player/%s/%s.mdl", g_eClass[i][NameModel], g_eClass[i][NameModel])
-        if (file_exists(model)) {
-            precache_generic(model)
-        } else {
-            log_amx("Model ^"%s^" does not exists", model)
-        }
-    }
+	// Precache models
+	for (new i = 0; i < sizeof(g_eClass); i++) {
+		new model[128]
+		formatex(model, charsmax(model), "models/player/%s/%s.mdl", g_eClass[i][NameModel], g_eClass[i][NameModel])
+		if (file_exists(model)) {
+			precache_generic(model)
+		} else {
+			log_amx("Model ^"%s^" does not exists", model)
+		}
+	}
 }
 
 public client_putinserver(id){
@@ -88,6 +88,8 @@ public Human_Menu(id)
 		menu_additem(iMenu, gText)
 	}
 	menu_display(id, iMenu, 0)
+	
+	return PLUGIN_HANDLED
 }
 
 public Class_Handler(id, iMenu, iItem){
