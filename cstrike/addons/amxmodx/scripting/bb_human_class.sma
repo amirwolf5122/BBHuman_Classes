@@ -47,27 +47,23 @@ new my_Class[MAX_PLAYERS + 1]
 
 public plugin_init()
 {
-	register_plugin("human Class BaseBuilder", "1.1", "AmirWolf")
+	register_plugin("human Class BaseBuilder", "1.2", "AmirWolf")
 	register_clcmd("say /human", "Human_Menu")
 	RegisterHam(Ham_Spawn, "player", "HookSpawn", 1)
 }
 
 public plugin_precache()
 {
-	for(new i; i < sizeof(g_eClass); i++)
-	{
-		new model[128]
-		formatex(model, charsmax(model), "models/player/%s/%s.mdl", g_eClass[i][NameModel], g_eClass[i][NameModel])
-		
-		if(file_exists(model))
-		{
-			precache_generic(model)
-		}
-		else
-		{
-			log_amx("Model ^"%s^" does not exists", model)
-		}
-	}
+    // Precache models
+    for (new i = 0; i < sizeof(g_eClass); i++) {
+        new model[128]
+        formatex(model, charsmax(model), "models/player/%s/%s.mdl", g_eClass[i][NameModel], g_eClass[i][NameModel])
+        if (file_exists(model)) {
+            precache_generic(model)
+        } else {
+            log_amx("Model ^"%s^" does not exists", model)
+        }
+    }
 }
 
 public client_putinserver(id){
@@ -81,18 +77,17 @@ public HookSpawn(id){
 }
 public Human_Menu(id)
 {
-	if(!is_user_alive(id) || cs_get_user_team(id) != CS_TEAM_CT)
+	if(!is_user_alive(id) || cs_get_user_team(id) != CS_TEAM_CT){
 		client_print(id, print_chat, "%s You do not have access to the menu", CLASSNAME)
-	else
-	{
-		new gText[128],iMenu = menu_create("\d[ \rBase Builder \d| \wHuman Classes \d]", "Class_Handler")
-		for(new i; i < sizeof(g_eClass); i++){
-			formatex(gText, charsmax(gText), "\y%s \d| \wHP:%d JM:%d", g_eClass[i][Name_Class], g_eClass[i][Class_HP], floatround(Float:sz_Gravity[i] * 1.0))
-			menu_additem(iMenu, gText)
-		}
-		menu_display(id, iMenu, 0)
+		return PLUGIN_HANDLED
 	}
-	return PLUGIN_HANDLED
+
+	new gText[128], iMenu = menu_create("\d[ \rBase Builder \d| \wHuman Classes \d]", "Class_Handler")
+	for(new i = 0; i < sizeof(g_eClass); i++){
+		formatex(gText, charsmax(gText), "\y%s \d| \wHP:%d JM:%d", g_eClass[i][Name_Class], g_eClass[i][Class_HP], floatround(Float:sz_Gravity[i] * 1.0))
+		menu_additem(iMenu, gText)
+	}
+	menu_display(id, iMenu, 0)
 }
 
 public Class_Handler(id, iMenu, iItem){
