@@ -11,36 +11,24 @@
 
 #define CLASSNAME "[ Human class ]"
 
-#define MAX_CLASS 7
-
 enum _:Classes
 {
     Name_Class[32],
     NameModel[32],
 	Class_HP,
+	Float:sz_Gravity,
     FlagAdmin
 }
 
-new const Float:sz_Gravity[MAX_CLASS] = 
-{
-	750.0, //Naruto
-	700.0, //Sasuke
-	650.0,  //Gaara
-	600.0, //Kisame
-	550.0, //MyIchigo
-	500.0, //Terminator
-	450.0  //Goku
-}
-
-new const g_eClass[MAX_CLASS][Classes] =
-{	//Name_Class //model  //Class_HP //flag
-	{ "Naruto", "Naruto", 100, ADMIN_ALL},
-	{ "Sasuke", "Sasuke", 130, ADMIN_ALL},
-	{ "Gaara", "Gaara", 160, ADMIN_ALL},
-	{ "Kisame", "Kisame", 220, ADMIN_ALL},
-	{ "MyIchigo \r[VIP]", "MyIchigo", 250, ADMIN_VOTE},
-	{ "Terminator \r[ADMIN]", "Terminator", 280, ADMIN_KICK},
-	{ "Goku \r[ADMIN]", "Goku", 300, ADMIN_KICK}
+new const g_eClass[][Classes] =
+{	//Name_Class //model //HP //Gravity //flag
+	{ "Naruto", "Naruto", 100, 750.0, ADMIN_ALL},
+	{ "Sasuke", "Sasuke", 130, 700.0, ADMIN_ALL},
+	{ "Gaara", "Gaara", 160, 650.0, ADMIN_ALL},
+	{ "Kisame", "Kisame", 220, 600.0, ADMIN_ALL},
+	{ "MyIchigo \r[VIP]", "MyIchigo", 250, 550.0, ADMIN_VOTE},
+	{ "Terminator \r[ADMIN]", "Terminator", 280, 500.0, ADMIN_KICK},
+	{ "Goku \r[ADMIN]", "Goku", 300, 450.0, ADMIN_KICK}
 }
 
 new my_Class[MAX_PLAYERS + 1]
@@ -72,7 +60,7 @@ public client_putinserver(id){
 
 public HookSpawn(id){
 	if(is_user_alive(id) && cs_get_user_team(id) == CS_TEAM_CT){
-		set_Human(id, g_eClass[my_Class[id]][NameModel], g_eClass[my_Class[id]][Class_HP], sz_Gravity[my_Class[id]])
+		set_Human(id, g_eClass[my_Class[id]][NameModel], g_eClass[my_Class[id]][Class_HP], g_eClass[my_Class[id]][sz_Gravity])
 	}
 }
 public Human_Menu(id)
@@ -84,7 +72,7 @@ public Human_Menu(id)
 
 	new gText[128], iMenu = menu_create("\d[ \rBase Builder \d| \wHuman Classes \d]", "Class_Handler")
 	for(new i = 0; i < sizeof(g_eClass); i++){
-		formatex(gText, charsmax(gText), "\y%s \d| \wHP:%d JM:%d", g_eClass[i][Name_Class], g_eClass[i][Class_HP], floatround(Float:sz_Gravity[i] * 1.0))
+		formatex(gText, charsmax(gText), "\y%s \d| \wHP:%d JM:%d", g_eClass[i][Name_Class], g_eClass[i][Class_HP], floatround(g_eClass[i][sz_Gravity]))
 		menu_additem(iMenu, gText)
 	}
 	menu_display(id, iMenu, 0)
