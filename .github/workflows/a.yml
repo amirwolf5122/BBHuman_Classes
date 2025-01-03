@@ -23,7 +23,6 @@ jobs:
         with:
           name: cstrike.zip
           path: cstrike.zip
-
   release:
     name: Release
     runs-on: ubuntu-latest
